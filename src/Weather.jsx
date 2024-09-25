@@ -12,25 +12,28 @@ export default function WeatherApp() {
   const [error, setError] = useState(null);
 
   const fetchWeather = async () => {
-    if (!location) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.get(BASE_URL, {
-        params: {
-          q: location,
-          appid: API_KEY,
-          units: "metric",
-        },
-      });
-      setWeather(response.data);
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
-    } finally {
-      setLoading(false);
+    if (location === "") {
+      alert("fields empty");
+    } else {
+      if (!location) return;
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(BASE_URL, {
+          params: {
+            q: location,
+            appid: API_KEY,
+            units: "metric",
+          },
+        });
+        setWeather(response.data);
+      } catch (err) {
+        setError(err.response?.data?.message || "An error occurred");
+      } finally {
+        setLoading(false);
+      }
     }
   };
-
   return (
     <div className={styles.container}>
       <div className={styles.card}>
